@@ -202,7 +202,8 @@ Edit the `COLOR_SCHEMES` list in `main.py` to customize background and text colo
 
 ## Notes
 
-- The script posts every 5 minutes. Adjust as needed based on Facebook's rate limits
+- The script posts every ~5 minutes with random jitter (3-7 minutes) to avoid Facebook's spam detection
+- Jitter is configurable in `main.py`: `BASE_INTERVAL_MINUTES` and `JITTER_MINUTES`
 - Generated images are saved in `output/` folder for backup
 - The script uses random color schemes for variety
 - Make sure your Facebook Page has posting permissions enabled
