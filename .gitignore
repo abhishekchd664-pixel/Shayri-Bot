@@ -1,0 +1,36 @@
+# Generated images
+output/
+*.jpg
+*.png
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
+
+# Environment variables
+.env
+.env.local
+
+# Sensitive files with tokens
+quick_extend.py
+get_extended_token.py
+extend_token.py
+extend_token_simple.py
+*_token*.py
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db

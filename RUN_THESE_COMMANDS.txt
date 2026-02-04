@@ -1,0 +1,36 @@
+==========================================
+COPY AND PASTE THESE COMMANDS
+==========================================
+
+STEP 1: Configure Git (replace with your info)
+------------------------------------------
+git config user.email "your_email@example.com"
+git config user.name "Your Name"
+
+
+STEP 2: Create Commit
+------------------------------------------
+git add .
+git commit -m "Initial commit: Hindi Shayari Auto-Poster with 24/7 deployment support"
+git branch -M main
+
+
+STEP 3: Create GitHub Repository First
+------------------------------------------
+1. Go to: https://github.com/new
+2. Name: shayari-poster
+3. DO NOT check "Initialize with README"
+4. Click "Create repository"
+
+
+STEP 4: Connect and Push (replace YOUR_USERNAME)
+------------------------------------------
+git remote add origin https://github.com/YOUR_USERNAME/shayari-poster.git
+git push -u origin main
+
+
+==========================================
+DONE! Your code is on GitHub!
+==========================================
+
+Next: Deploy to Railway (see START_HERE.md)
