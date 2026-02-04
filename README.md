@@ -6,7 +6,7 @@ A fully automated Python script that generates beautiful images with Hindi Shaya
 
 - 🎨 **Automatic Image Generation**: Creates 1080x1080 square images with dark aesthetic backgrounds
 - 📝 **100+ Hindi Shayaris**: Pre-loaded collection of high-quality Shayaris
-- 🤖 **Fully Automated**: Posts every 5 minutes using the `schedule` library
+- 🤖 **Fully Automated**: Posts every ~5 minutes with random jitter (3-7 minutes) to avoid spam detection
 - 🎯 **Facebook Integration**: Uses Facebook Graph API to post directly to your page
 - 💧 **Watermark Support**: Adds your page name watermark to each image
 - 🛡️ **Error Handling**: Robust error handling to prevent crashes
@@ -164,8 +164,11 @@ curl "https://graph.facebook.com/v18.0/YOUR_PAGE_ID?fields=name&access_token=YOU
 
 Edit `main.py`:
 ```python
-schedule.every(5).minutes.do(post_shayari)  # Change 5 to your desired minutes
+BASE_INTERVAL_MINUTES = 5  # Base interval: 5 minutes
+JITTER_MINUTES = 2  # Random variation: ±2 minutes (posts between 3-7 minutes)
 ```
+
+The script automatically adds random jitter to avoid spam detection. Each post is scheduled at a random interval around the base time.
 
 ### Change Image Size
 

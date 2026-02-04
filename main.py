@@ -22,6 +22,10 @@ SHAYARIS_FILE = "shayaris.json"
 OUTPUT_DIR = "output"
 IMAGE_SIZE = (1080, 1080)  # Square image for Instagram/Facebook
 
+# Posting interval with jitter (to avoid spam detection)
+BASE_INTERVAL_MINUTES = 5  # Base interval: 5 minutes
+JITTER_MINUTES = 2  # Random variation: ±2 minutes (posts between 3-7 minutes)
+
 # Dark aesthetic color schemes
 COLOR_SCHEMES = [
     {"bg": (18, 18, 18), "text": (255, 255, 255)},  # Pure black background
@@ -240,13 +244,38 @@ def post_shayari():
         traceback.print_exc()
 
 
+def schedule_next_post():
+    """Schedule the next post with random jitter to avoid spam detection."""
+    # Calculate random interval with jitter
+    # Base interval ± jitter (e.g., 5 minutes ± 2 minutes = 3-7 minutes)
+    interval_minutes = BASE_INTERVAL_MINUTES + random.uniform(-JITTER_MINUTES, JITTER_MINUTES)
+    interval_seconds = int(interval_minutes * 60)
+    
+    # Schedule the post
+    schedule.clear()  # Clear any existing schedules
+    schedule.every(interval_seconds).seconds.do(post_and_reschedule)
+    
+    next_post_time = datetime.now().timestamp() + interval_seconds
+    next_post_datetime = datetime.fromtimestamp(next_post_time)
+    
+    print(f"Next post scheduled in {interval_minutes:.1f} minutes ({interval_seconds} seconds)")
+    print(f"Next post time: {next_post_datetime.strftime('%Y-%m-%d %H:%M:%S')}")
+
+
+def post_and_reschedule():
+    """Post a Shayari and schedule the next one with jitter."""
+    post_shayari()
+    schedule_next_post()  # Reschedule with new random interval
+
+
 def main():
     """Main function to set up scheduling and run the bot."""
     print("=" * 60)
     print("Hindi Shayari Facebook Auto-Poster")
     print("=" * 60)
     print(f"Page ID: {PAGE_ID}")
-    print(f"Posting interval: Every 5 minutes")
+    print(f"Posting interval: {BASE_INTERVAL_MINUTES} minutes ± {JITTER_MINUTES} minutes")
+    print(f"  (Random interval: {BASE_INTERVAL_MINUTES - JITTER_MINUTES}-{BASE_INTERVAL_MINUTES + JITTER_MINUTES} minutes)")
     print(f"Output directory: {OUTPUT_DIR}")
     print("=" * 60)
     
@@ -255,14 +284,14 @@ def main():
         print(f"Warning: {SHAYARIS_FILE} not found!")
         return
     
-    # Schedule posting every 5 minutes
-    schedule.every(5).minutes.do(post_shayari)
-    
     # Post immediately on startup (optional - comment out if not needed)
     print("\nPosting first Shayari now...")
     post_shayari()
     
-    print("\nScheduler started. Waiting for next post...")
+    # Schedule the next post with jitter
+    schedule_next_post()
+    
+    print("\nScheduler started with jitter to avoid spam detection.")
     print("Press Ctrl+C to stop.\n")
     
     # Keep the script running
